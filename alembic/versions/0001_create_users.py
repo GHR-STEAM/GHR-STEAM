@@ -22,7 +22,7 @@ def upgrade() -> None:
         sa.Column("username", sa.String(100), unique=True, nullable=False),
         sa.Column("hashed_password", sa.String(255), nullable=False),
         sa.Column("created_at", sa.DateTime(timezone=True), server_default=sa.func.now()),
-        sa.Column("updated_at", sa.DateTime(timezone=True), server_default=sa.func.now(), onupdate=sa.func.now()),
+        sa.Column("updated_at", sa.DateTime(timezone=True), server_default=sa.func.now()),
     )
 
 
