@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from bson import ObjectId
-from src.core.logging import logger
 from datetime import datetime, timezone
 from src.database import get_mongo_collection
 from src.schemas.item import ItemCreate, ItemOut
