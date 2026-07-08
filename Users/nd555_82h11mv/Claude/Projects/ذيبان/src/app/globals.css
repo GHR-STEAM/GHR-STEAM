@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@200;300;400;500;700;800;900&family=Scheherazade+New:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  direction: rtl;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Tajawal', 'Cairo', sans-serif;
+  @apply bg-primary-950 text-gray-100;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Scheherazade New', 'Cairo', serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a140d;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ca8a04;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #eab308;
+}
+
+/* Smooth transitions */
+* {
+  @apply transition-colors duration-300;
+}
+
+/* Custom button styles */
+.btn-primary {
+  @apply px-6 py-3 bg-accent-600 hover:bg-accent-500 text-primary-950 font-bold rounded-lg transition-all duration-300 active:scale-95;
+}
+
+.btn-secondary {
+  @apply px-6 py-3 bg-primary-800 hover:bg-primary-700 text-accent-400 font-bold rounded-lg border-2 border-accent-600 transition-all duration-300 active:scale-95;
+}
+
+/* Card styles */
+.card {
+  @apply bg-primary-900 rounded-xl border border-primary-800 hover:border-accent-600 transition-all duration-300;
+}
+
+.card-hover {
+  @apply hover:shadow-2xl hover:shadow-accent-600/20 hover:-translate-y-1;
+}
+
+/* Text gradients */
+.text-gradient {
+  background: linear-gradient(135deg, #eab308 0%, #fde047 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Poetry text styling */
+.poetry-text {
+  @apply font-scheherazade text-lg leading-relaxed text-gray-200 py-4;
+}
+
+/* Audio player styling */
+.audio-player {
+  @apply w-full bg-primary-800 rounded-lg p-4 border-2 border-accent-600;
+}
+
+/* Category badge */
+.category-badge {
+  @apply inline-block px-4 py-2 bg-accent-600/20 text-accent-400 rounded-full border border-accent-600 text-sm font-semibold;
+}
+
+/* Loading animation */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+  background-image: linear-gradient(90deg, transparent 0%, rgba(202, 138, 4, 0.3) 50%, transparent 100%);
+  background-size: 1000px 100%;
+}
+
+/* Grid layout for RTL */
+.grid-rtl {
+  display: grid;
+  direction: rtl;
+}
