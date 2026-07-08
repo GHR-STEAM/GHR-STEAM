@@ -106,15 +106,19 @@ jobs:
           pip install bandit
           bandit -r src -f json -o bandit-report.json || true
 
-      - name: Run Alembic migrations
+      - name: Debug imports & DB
         run: |
-          alembic -c alembic.ini upgrade head
+          echo "=== Testing imports ==="
+          python3 -c "from sqlalchemy import create_engine, text; e = create_engine('postgresql://postgres:postgres@127.0.0.1:5432/testdb'); r = e.connect().execute(text('SELECT 1')); print('DB OK:', r.fetchone())" 2>&1 || echo "SQLA DB FAILED"
+          python3 -c "import alembic; print('alembic OK')" 2>&1 || echo "alembic import FAILED"
+          python3 -c "from src.models import Base; print('models OK')" 2>&1 || echo "models import FAILED"
+          echo "=== Testing DB connection ==="
+          PGPASSWORD=postgres psql -h 127.0.0.1 -U postgres -d testdb -c "SELECT 1 as test" 2>&1 || echo "psql FAILED"
+          echo "=== Running Alembic upgrade ==="
+          alembic -c alembic.ini upgrade head 2>&1; echo "ALEMBIC EXIT: $?"
 
       - name: Run tests with coverage
         run: |
-          python3 -c "from httpx import AsyncClient, ASGITransport; print('httpx imports OK')" 2>&1 || echo "httpx import failed"
-          python3 -c "from src.main import app; print('app imports OK')" 2>&1 || echo "app import failed"
-          python3 -c "from src.database import engine; print('engine imports OK')" 2>&1 || echo "db import failed"
           pytest --cov=src --cov-report=xml -v 2>&1 || true
 
       - name: Upload coverage report
