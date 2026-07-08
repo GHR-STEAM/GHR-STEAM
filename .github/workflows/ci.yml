@@ -108,21 +108,11 @@ jobs:
 
       - name: Run Alembic migrations
         run: |
-          set -x
-          echo "CWD: $(pwd)"
-          echo "PYTHONPATH: ${PYTHONPATH:-unset}"
-          python3 -c "import sys; print('sys.path:', sys.path)" 2>&1
-          echo "--- test import ---"
-          python3 -c "from src.models import Base; print('Base tables:', list(Base.metadata.tables.keys()))" 2>&1
-          echo "--- test db ---"
-          python3 -c "from sqlalchemy import create_engine,text; e=create_engine('postgresql://postgres:postgres@127.0.0.1:5432/testdb'); r=e.connect().execute(text('SELECT 1')); print('DB OK:', r.fetchone())" 2>&1
-          echo "--- run alembic ---"
-          PYTHONPATH=. alembic -c alembic.ini upgrade head 2>&1; echo "ALEMBIC EXIT: $?"
-          set +x
+          PYTHONPATH=. alembic -c alembic.ini upgrade head
 
       - name: Run tests with coverage
         run: |
-          pytest --cov=src --cov-report=xml -v 2>&1 || echo "PYTEST EXIT: $?"
+          pytest --cov=src --cov-report=xml -v
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
