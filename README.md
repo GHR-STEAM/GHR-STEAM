@@ -1,4 +1,10 @@
+[![CI Pipeline](https://github.com/GHR-STEAM/GHR-STEAM/actions/workflows/ci.yml/badge.svg)](https://github.com/GHR-STEAM/GHR-STEAM/actions)
+[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://ghr-steam.github.io/GHR-STEAM)
+[![Dependabot](https://img.shields.io/badge/security-Dependabot-green)](https://github.com/GHR-STEAM/GHR-STEAM/security/dependabot)
+
 # GHR-STEAM
+
+منصة متكاملة لإدارة البيانات مع MongoDB, Redis, و PostgreSQL.
 
 ## تشغيل محلي سريع
 1. docker-compose up -d
