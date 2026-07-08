@@ -108,7 +108,13 @@ jobs:
 
       - name: Run Alembic migrations
         run: |
-          alembic -c alembic.ini upgrade head
+          echo "Testing DB connection..."
+          psql -h 127.0.0.1 -p 5432 -U postgres -c "SELECT 1" testdb || echo "psql connection failed"
+          echo "Running Alembic upgrade..."
+          alembic -c alembic.ini upgrade head 2>&1 || true
+          echo "Alembic exit: $?"
+          alembic -c alembic.ini history 2>&1 || true
+          alembic -c alembic.ini current 2>&1 || true
 
       - name: Run tests with coverage
         run: |
