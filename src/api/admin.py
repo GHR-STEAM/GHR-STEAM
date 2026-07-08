@@ -4,13 +4,17 @@ from sqlalchemy import select, func
 from src.database import get_pg_session, get_mongo_collection
 from src.cache import get_redis_sync
 from src.models import User
+from src.api.deps import get_current_user
 from src.core.logging import logger
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 
 
 @router.get("/stats")
-async def stats(db: AsyncSession = Depends(get_pg_session)):
+async def stats(
+    db: AsyncSession = Depends(get_pg_session),
+    _=Depends(get_current_user),
+):
     result = await db.execute(select(func.count(User.id)))
     total_users = result.scalar() or 0
 
@@ -36,7 +40,10 @@ async def stats(db: AsyncSession = Depends(get_pg_session)):
 
 
 @router.get("/health/full")
-async def full_health(db: AsyncSession = Depends(get_pg_session)):
+async def full_health(
+    db: AsyncSession = Depends(get_pg_session),
+    _=Depends(get_current_user),
+):
     checks = {}
 
     try:
