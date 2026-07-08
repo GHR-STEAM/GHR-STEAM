@@ -1,13 +1,9 @@
-name: project
+name: base
 channels:
   - conda-forge
   - defaults
 dependencies:
   - python=3.13
-  - pymongo
-  - redis-py
-  - pytest
-  - alembic
-  - pydantic
-  - sqlalchemy
-  - psycopg2
+  - pip
+  - pip:
+    - -r requirements.txt

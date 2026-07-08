@@ -1,12 +1,10 @@
-[build-system]
-requires = ["setuptools>=68.0"]
-build-backend = "setuptools.backends._legacy:_Backend"
-
-[project]
-name = "project"
+[tool.poetry]
+name = "ghr-steam"
 version = "0.1.0"
-requires-python = ">=3.13"
+description = "GHR-STEAM project"
+authors = ["GHR-STEAM"]
 
 [tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
 testpaths = ["tests"]
-asyncio_mode = "auto"
