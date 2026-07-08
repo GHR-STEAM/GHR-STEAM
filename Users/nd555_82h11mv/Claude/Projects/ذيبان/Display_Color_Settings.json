@@ -1,0 +1,108 @@
+{
+  "display_settings": {
+    "windows11": {
+      "display": {
+        "resolution": "1920x1080",
+        "refresh_rate": "144Hz",
+        "hdr_enabled": true,
+        "color_depth": "32-bit",
+        "scaling": "100%"
+      },
+      "cleartype": {
+        "enabled": true,
+        "level": 5
+      },
+      "advanced": {
+        "color_format": "RGB",
+        "dynamic_range": "Full"
+      }
+    }
+  },
+  "nvidia_settings": {
+    "global_default": {
+      "brightness": 50,
+      "contrast": 50,
+      "gamma": 1.0,
+      "digital_vibrance": 80,
+      "hue": 0,
+      "saturation": 50
+    },
+    "video": {
+      "output_color_format": "RGB",
+      "output_color_depth": "10 bpc",
+      "color_range": "Full",
+      "dynamic_range": "Full"
+    },
+    "gaming_profile": {
+      "fxaa": false,
+      "anti_aliasing": true,
+      "anti_aliasing_fxaa": false,
+      "anti_aliasing_transparency": false,
+      "max_prerendered_frames": 1,
+      "power_management_mode": "Prefer maximum performance",
+      "shader_cache": true,
+      "texture_filtering_negative_lod_bias": "Clamp",
+      "vertical_sync": false,
+      "virtual_reality_prerendered_frames": 1,
+      "anisotropic_filtering": "16x"
+    }
+  },
+  "amd_settings": {
+    "color": {
+      "saturation": 50,
+      "brightness": 50,
+      "contrast": 50,
+      "hue": 0,
+      "sharpness": 1.5
+    },
+    "video": {
+      "color_depth": "12-bit",
+      "color_space": "RGB Full"
+    },
+    "gaming_profile": {
+      "tessellation": true,
+      "texture_filtering": "High Performance",
+      "surface_format_optimization": true,
+      "anti_lag": true,
+      "boost": true,
+      "frame_rate_target_control": false,
+      "gpu_scaling": true,
+      "virtual_super_resolution": false,
+      "radeon_chill": false,
+      "radeon_image_sharpening": 80
+    }
+  },
+  "power_settings": {
+    "profile": "High Performance",
+    "monitor_timeout_ac": "15 minutes",
+    "disk_timeout_ac": "Never",
+    "usb_selective_suspend": false,
+    "pci_express_power_management": false,
+    "sleep_timeout": "Never"
+  },
+  "gaming_vs_productivity": {
+    "gaming": {
+      "power_plan": "High Performance",
+      "vsync": false,
+      "anti_aliasing": "8x MSAA",
+      "shader_cache": true,
+      "digital_vibrance": 80,
+      "max_prerendered_frames": 1
+    },
+    "productivity": {
+      "power_plan": "Balanced",
+      "vsync": true,
+      "anti_aliasing": "2x MSAA",
+      "shader_cache": true,
+      "digital_vibrance": 50,
+      "max_prerendered_frames": 3
+    }
+  },
+  "notes": {
+    "refresh_rate_values": "60Hz, 75Hz, 120Hz, 144Hz, 165Hz, 240Hz (حسب الشاشة)",
+    "digital_vibrance_usage": "50 للعمل، 70-80 للألعاب",
+    "power_plan": "استخدم High Performance للألعاب، Balanced للعمل اليومي",
+    "vsync_note": "عطّل V-Sync للأداء الأسرع، فعّله لتقليل الـ Tearing",
+    "disclaimer": "هذه الإعدادات مثالية لمعظم الحالات، قد تحتاج إلى تعديلات حسب شاشتك وكرت الرسومات"
+  }
+}
