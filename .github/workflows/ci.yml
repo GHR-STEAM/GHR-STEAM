@@ -108,14 +108,14 @@ jobs:
 
       - name: Debug imports & DB
         run: |
-          echo "=== Testing imports ==="
-          python3 -c "from sqlalchemy import create_engine, text; e = create_engine('postgresql://postgres:postgres@127.0.0.1:5432/testdb'); r = e.connect().execute(text('SELECT 1')); print('DB OK:', r.fetchone())" 2>&1 || echo "SQLA DB FAILED"
-          python3 -c "import alembic; print('alembic OK')" 2>&1 || echo "alembic import FAILED"
-          python3 -c "from src.models import Base; print('models OK')" 2>&1 || echo "models import FAILED"
-          echo "=== Testing DB connection ==="
-          PGPASSWORD=postgres psql -h 127.0.0.1 -U postgres -d testdb -c "SELECT 1 as test" 2>&1 || echo "psql FAILED"
-          echo "=== Running Alembic upgrade ==="
-          alembic -c alembic.ini upgrade head 2>&1; echo "ALEMBIC EXIT: $?"
+          echo "=== 1. DB via SQLAlchemy ==="
+          python3 -c "from sqlalchemy import create_engine,text; e=create_engine('postgresql://postgres:postgres@127.0.0.1:5432/testdb'); r=e.connect().execute(text('SELECT 1')); print('OK:',r.fetchone())" 2>&1 || echo "SQLA-DB-FAIL"
+          echo "=== 2. DB via psql ==="
+          PGPASSWORD=postgres psql -h 127.0.0.1 -U postgres -d testdb -c "SELECT 1" 2>&1 || echo "PSQL-FAIL"
+          echo "=== 3. import src.models ==="
+          python3 -c "from src.models import Base; print(list(Base.metadata.tables.keys()))" 2>&1 || echo "MODELS-FAIL"
+          echo "=== 4. alembic upgrade ==="
+          PYTHONPATH=. alembic -c alembic.ini upgrade head 2>&1 || echo "ALEMBIC-FAIL"
 
       - name: Run tests with coverage
         run: |
