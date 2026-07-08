@@ -4,6 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.api.auth import router as auth_router
 from src.api.items import router as items_router
 from src.api.reports import router as reports_router
+from src.api.admin import router as admin_router
+from src.api.users import router as users_router
 from src.core.logging import setup_logging, logger
 from src.core.events import ensure_group
 from src.cache import close_redis
@@ -38,3 +40,5 @@ async def health():
 app.include_router(auth_router)
 app.include_router(items_router)
 app.include_router(reports_router)
+app.include_router(admin_router)
+app.include_router(users_router)
