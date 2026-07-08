@@ -108,23 +108,38 @@ jobs:
 
       - name: Run Alembic migrations
         run: |
-          PYTHONPATH=. alembic -c alembic.ini upgrade head
+          PYTHONPATH=. alembic -c alembic.ini upgrade head 2>&1 | tee /tmp/alembic_output.txt || {
+            cat /tmp/alembic_output.txt
+            exit 1
+          }
 
       - name: Run tests with coverage
         run: |
           pytest --cov=src --cov-report=xml -v
 
+      - name: Upload alembic debug log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: alembic-debug
+          path: /tmp/alembic_output.txt
+          if-no-files-found: ignore
+
       - name: Upload coverage report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: coverage.xml
+          if-no-files-found: ignore
 
       - name: Upload bandit report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: bandit-report
           path: bandit-report.json
+          if-no-files-found: ignore
 
       - name: Slack notification (optional)
         if: always()
