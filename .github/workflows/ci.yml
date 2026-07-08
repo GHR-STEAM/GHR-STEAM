@@ -86,9 +86,9 @@ jobs:
           echo "REDIS_ENABLED=true" >> $GITHUB_ENV
           echo "SECRET_KEY=ci-secret-key" >> $GITHUB_ENV
 
-      - name: Lint with ruff
+      - name: Lint with ruff (fix issues)
         run: |
-          ruff check src/
+          ruff check src/ --fix
 
       - name: Format check (black + isort)
         continue-on-error: true
