@@ -1,14 +1,28 @@
 fastapi==0.95.2
-uvicorn==0.22.0
+uvicorn[standard]==0.22.0
 motor==4.4.0
 pymongo==4.12.1
 redis==5.3.3
 asyncpg==0.28.0
 sqlalchemy==2.1.0
 alembic==1.18.5
+pydantic==2.9.0
+pydantic-settings==2.0.3
+python-dotenv==1.0.1
+httpx==0.24.1
+
+# auth
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+
+# logging
+structlog==24.1.0
+loguru==0.7.2
+
+# test & lint
 pytest==8.3.2
 pytest-asyncio==0.23.0
-python-dotenv==1.0.1
-pydantic==2.9.0
-httpx==0.24.1
 pytest-cov==4.1.0
+ruff==0.4.0
+bandit==1.7.8

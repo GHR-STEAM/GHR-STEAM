@@ -2,14 +2,19 @@ import os
 from motor.motor_asyncio import AsyncIOMotorClient
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
+from src.core.config import settings
 
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://127.0.0.1:27017/testdb")
-client = AsyncIOMotorClient(MONGO_URI)
-mongo_db = client.get_default_database()
+mongo_client = AsyncIOMotorClient(settings.mongo_uri)
+mongo_db = mongo_client.get_default_database()
 
-POSTGRES_URL = os.getenv("POSTGRES_URL", "postgresql+asyncpg://postgres:postgres@127.0.0.1:5432/testdb")
-engine = create_async_engine(POSTGRES_URL, echo=False)
+engine = create_async_engine(settings.postgres_url, echo=False, pool_size=5, max_overflow=10)
 AsyncSessionLocal = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
-def get_db():
-    return AsyncSessionLocal()
+
+async def get_pg_session():
+    async with AsyncSessionLocal() as session:
+        yield session
+
+
+def get_mongo_collection(name: str):
+    return mongo_db[name]

@@ -1,10 +1,21 @@
-[tool.poetry]
+[project]
 name = "ghr-steam"
 version = "0.1.0"
-description = "GHR-STEAM project"
-authors = ["GHR-STEAM"]
+description = "GHR-STEAM API"
+requires-python = ">=3.13"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
 addopts = "-ra -q"
 testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.ruff]
+target-version = "py313"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W"]
+
+[tool.bandit]
+exclude_dirs = ["tests", ".venv"]
