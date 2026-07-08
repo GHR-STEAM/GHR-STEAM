@@ -106,20 +106,13 @@ jobs:
           pip install bandit
           bandit -r src -f json -o bandit-report.json || true
 
-      - name: Debug imports & DB
+      - name: Run Alembic migrations
         run: |
-          echo "=== 1. DB via SQLAlchemy ==="
-          python3 -c "from sqlalchemy import create_engine,text; e=create_engine('postgresql://postgres:postgres@127.0.0.1:5432/testdb'); r=e.connect().execute(text('SELECT 1')); print('OK:',r.fetchone())" 2>&1 || echo "SQLA-DB-FAIL"
-          echo "=== 2. DB via psql ==="
-          PGPASSWORD=postgres psql -h 127.0.0.1 -U postgres -d testdb -c "SELECT 1" 2>&1 || echo "PSQL-FAIL"
-          echo "=== 3. import src.models ==="
-          python3 -c "from src.models import Base; print(list(Base.metadata.tables.keys()))" 2>&1 || echo "MODELS-FAIL"
-          echo "=== 4. alembic upgrade ==="
-          PYTHONPATH=. alembic -c alembic.ini upgrade head 2>&1 || echo "ALEMBIC-FAIL"
+          alembic -c alembic.ini upgrade head
 
       - name: Run tests with coverage
         run: |
-          pytest --cov=src --cov-report=xml -v 2>&1 || true
+          pytest --cov=src --cov-report=xml -v
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
