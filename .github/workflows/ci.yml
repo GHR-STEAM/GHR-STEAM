@@ -54,7 +54,7 @@ jobs:
       - name: Install system deps
         run: |
           sudo apt-get update
-          sudo apt-get install -y mongodb-clients redis-tools postgresql-client
+          sudo apt-get install -y mongodb-mongosh redis-tools postgresql-client
 
       - name: Install Python dependencies
         run: |
