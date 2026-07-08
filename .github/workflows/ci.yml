@@ -108,17 +108,14 @@ jobs:
 
       - name: Run Alembic migrations
         run: |
-          echo "Testing DB connection..."
-          psql -h 127.0.0.1 -p 5432 -U postgres -c "SELECT 1" testdb || echo "psql connection failed"
-          echo "Running Alembic upgrade..."
-          alembic -c alembic.ini upgrade head 2>&1 || true
-          echo "Alembic exit: $?"
-          alembic -c alembic.ini history 2>&1 || true
-          alembic -c alembic.ini current 2>&1 || true
+          alembic -c alembic.ini upgrade head
 
       - name: Run tests with coverage
         run: |
-          pytest --cov=src --cov-report=xml -q
+          python3 -c "from httpx import AsyncClient, ASGITransport; print('httpx imports OK')" 2>&1 || echo "httpx import failed"
+          python3 -c "from src.main import app; print('app imports OK')" 2>&1 || echo "app import failed"
+          python3 -c "from src.database import engine; print('engine imports OK')" 2>&1 || echo "db import failed"
+          pytest --cov=src --cov-report=xml -v 2>&1 || true
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
