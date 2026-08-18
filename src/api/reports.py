@@ -1,12 +1,13 @@
 from fastapi import APIRouter, Depends
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, func
-from src.database import get_pg_session, get_mongo_collection
-from src.cache import get_redis_sync
+
 from src.api.deps import get_current_user
+from src.cache import get_redis_sync
+from src.core.logging import logger
+from src.database import get_mongo_collection, get_pg_session
 from src.models import User
 from src.schemas.item import HeavyReportOut
-from src.core.logging import logger
 
 router = APIRouter(prefix="/reports", tags=["reports"])
 

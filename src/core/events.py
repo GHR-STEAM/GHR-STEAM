@@ -1,5 +1,6 @@
 import json
 from typing import Any
+
 from src.cache import get_redis_sync
 
 STREAM_KEY = "events:stream"

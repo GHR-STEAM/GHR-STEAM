@@ -1,18 +1,29 @@
 import pytest
-import asyncio
 from sqlalchemy import text
-from src.database import engine
+
+from src.database import engine, get_mongo_collection
+from src.models import Base
 
 
-@pytest.fixture(scope="session")
-def event_loop():
-    loop = asyncio.new_event_loop()
-    yield loop
-    loop.close()
+@pytest.fixture(scope="session", autouse=True)
+async def setup_db():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    yield
 
 
 @pytest.fixture(autouse=True)
 async def clean_db():
     yield
-    async with engine.begin() as conn:
-        await conn.execute(text("DELETE FROM users"))
+    try:
+        async with engine.begin() as conn:
+            await conn.execute(text("DELETE FROM users"))
+    except Exception:
+        pass
+
+    try:
+        col = get_mongo_collection("items")
+        await col.delete_many({})
+    except Exception:
+        pass
+

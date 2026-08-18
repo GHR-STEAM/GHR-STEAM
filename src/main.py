@@ -1,14 +1,16 @@
 from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
+from src.api.admin import router as admin_router
 from src.api.auth import router as auth_router
 from src.api.items import router as items_router
 from src.api.reports import router as reports_router
-from src.api.admin import router as admin_router
 from src.api.users import router as users_router
-from src.core.logging import setup_logging, logger
-from src.core.events import ensure_group
 from src.cache import close_redis
+from src.core.events import ensure_group
+from src.core.logging import logger, setup_logging
 
 
 @asynccontextmanager

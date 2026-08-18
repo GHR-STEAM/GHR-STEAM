@@ -1,5 +1,7 @@
-import structlog
 import logging
+
+import structlog
+
 from src.core.config import settings
 
 
