@@ -1,12 +1,13 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
 from pydantic import BaseModel
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from src.api.deps import get_current_user
+from src.core.logging import logger
 from src.database import get_pg_session
 from src.models import User
-from src.api.deps import get_current_user
 from src.schemas.auth import UserOut
-from src.core.logging import logger
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -16,12 +17,8 @@ class UpdateProfileRequest(BaseModel):
     username: str | None = None
 
 
-@router.get("/{user_id}", response_model=UserOut)
-async def get_user(user_id: int, db: AsyncSession = Depends(get_pg_session)):
-    result = await db.execute(select(User).where(User.id == user_id))
-    user = result.scalar_one_or_none()
-    if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+@router.get("/me", response_model=UserOut)
+async def get_my_profile(user: User = Depends(get_current_user)):
     return user
 
 
@@ -45,3 +42,13 @@ async def update_profile(
     await db.refresh(user)
     logger.info("profile updated", user_id=user.id)
     return user
+
+
+@router.get("/{user_id}", response_model=UserOut)
+async def get_user(user_id: int, db: AsyncSession = Depends(get_pg_session)):
+    result = await db.execute(select(User).where(User.id == user_id))
+    user = result.scalar_one_or_none()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    return user
+
