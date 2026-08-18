@@ -1,4 +1,4 @@
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
@@ -6,6 +6,7 @@ class Settings(BaseSettings):
 
     mongo_uri: str = "mongodb://127.0.0.1:27017/testdb"
     postgres_url: str = "postgresql+asyncpg://postgres:postgres@127.0.0.1:5432/testdb"
+    database_url: str = "postgresql://postgres:postgres@127.0.0.1:5432/testdb"
     redis_url: str = "redis://127.0.0.1:6379"
     redis_enabled: bool = True
 
@@ -17,8 +18,7 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     json_logs: bool = False
 
-    class Config:
-        env_file = ".env"
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
 
 settings = Settings()
